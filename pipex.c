@@ -6,13 +6,13 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:01 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/22 16:49:47 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/11/22 18:12:29 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	fatherProcess(int *fd1,  int pid)
+void	father_process(int *fd1,  int pid)
 {
 	int	fd2;
 	
@@ -33,7 +33,7 @@ void	fatherProcess(int *fd1,  int pid)
 		close(fd1[READ_END]); // cerramos extremo de lectura
 }
 
-void	childProcess(int *fd1)
+void	child_process(int *fd1)
 {
 	int fd_read;
 	
@@ -56,27 +56,30 @@ int	main(int argc, char **argv, char **envp)
 	int status;
 	int pid;
 	char **routes;
-	//int	fd2;
-	//int fd_read;
 
 	//comprobar si nos envian el comando con la ruta antes de cocatenar
 	//manage_errors(argc, &(*argv), &(*envp));
 	//añadimos barra tras bin y cocatenamos con el comando
 	//funcion acces para comprobar si existe el comando en la ruta
 
-	routes = routesPull(envp); // cogidas las rutas con / -> hace falta o se puede luego?
+	routes = routes_pull(envp); // cogidas las rutas con / -> hace falta o se puede luego?
+
+
+	
+	acces_checker();
+
+	
+	
 	if (pipe(fd1) < 0)
 	{
 		perror("Error al crear el pipe \n");
 		return (0);	// comunica los procesos
 	}
-	
 	pid = fork();
-
 	if (pid == 0) // estamos en el hijo
-		childProcess(&fd1);
+		child_process(&fd1);
 	else if (pid > 0) // estamos en el padre
-		fatherProcess(&fd1, pid);
+		father_process(&fd1, pid);
 	else
 	{
 		perror("Error en el fork\n");

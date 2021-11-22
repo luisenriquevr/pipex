@@ -6,7 +6,7 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:16:06 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/22 15:51:21 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/11/22 18:21:08 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	ft_save_word(char *word, char const *s, char c, int i)
 		{
 			word[j++] = '/';
 			word[j] = '\0';
-			return (i + 1);
+			return (i);
 		}
 		word[j] = s[i];
 		i++;

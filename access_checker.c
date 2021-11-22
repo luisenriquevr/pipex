@@ -1,43 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_routes.c                                       :+:      :+:    :+:   */
+/*   access_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 12:26:31 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/22 17:53:10 by lvarela          ###   ########.fr       */
+/*   Created: 2021/11/22 17:48:45 by lvarela           #+#    #+#             */
+/*   Updated: 2021/11/22 18:23:51 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*get_path(char **envp)
+void add_cmd(char **routes, char cmd)
 {
+	char *aux;
 	int	i;
 	int	j;
-
-	i = 0;
-	j = 0;
-	while (envp[i][j])
+	
+	aux = NULL;
+	while (routes[i][j])
 	{
-		if (!ft_strncmp(&envp[i][j], "PATH", 4))
-			return (&envp[i][j]);
-		else
-			i++;
+		aux = ft_strjoin(&routes[i][j], cmd);
+		free(&routes[i]);
+		*routes[i] = aux;
 	}
-	perror("There are no PATH\n");
+	
 }
 
-char	**routes_pull(char **envp)
+int	access_checker(char **routes, char *path)
 {
-	char	*path;
 	int	i;
-	char	**routes;
-	
-	path = getPath(envp);
+
 	i = 0;
-	while (path && path[i++] != '=');
-	routes = ft_split(&path[++i], ':');
-	return (&(*routes));
+	if (access(path, X_OK) < 0)
+		return (0);
+	else
+	{
+		add_cmd(&(*routes), path);
+		while (*routes[i])
+		{
+			if(access(*routes[i], X_OK))
+				return (1);
+			i++;
+		}
+	}
+	return (-1);
 }
