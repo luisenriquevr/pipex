@@ -6,7 +6,7 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 12:26:31 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/22 16:03:10 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/11/22 16:32:13 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ char	**routesPull(char **envp)
 	i = 0;
 	while (path && path[i++] != '=');
 	routes = ft_split(&path[++i], ':');
-	i = 0;
 	return (&(*routes));
 }
