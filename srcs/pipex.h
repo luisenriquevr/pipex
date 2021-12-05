@@ -18,4 +18,4 @@
 
 int	main(int argc, char **argv, char **envp);
 char	**paths_pull(char **envp);
-void	manage_error(int argc, char **envp);
+void	manage_errors(int argc, char **argv, char **envp);

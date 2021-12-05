@@ -6,7 +6,7 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:48:58 by lvarela           #+#    #+#             */
-/*   Updated: 2021/12/05 14:07:44 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/12/05 17:15:47 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	throw_error(char *error)
 //   ./pipex archivo1 comando1 comando2 archivo2
 //	 < archivo1 comando1 | comando2 > archivo2
 
-void	manage_error(int argc, char **envp)
+void	manage_errors(int argc, char **argv, char **envp)
 {
 	if (argc != 5)
 		throw_error("Incorrect number of arguments\n");

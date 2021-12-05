@@ -6,7 +6,7 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:01 by lvarela           #+#    #+#             */
-/*   Updated: 2021/12/05 17:13:38 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/12/05 17:16:14 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ int	main(int argc, char **argv, char **envp)
 	// separar el comando de la opcion cmd-->"wc" opt-->"-l"
 	// comprobar que se han guardado bien los dos comandos
 	// 
-
+	manage_errors(argc, argv, envp);
 	paths = paths_pull(envp); // cogidas las rutas sin / -> hace falta ponerlo luego
-	printf("%s", paths[2]);
 
 	//acces_checker();
 	if (pipe(pipe1) == -1)
