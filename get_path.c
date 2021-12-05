@@ -6,7 +6,7 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 12:26:31 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/22 17:53:10 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/11/24 19:52:51 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ char	*get_path(char **envp)
 	perror("There are no PATH\n");
 }
 
-char	**routes_pull(char **envp)
+char	**paths_pull(char **envp)
 {
 	char	*path;
 	int	i;
-	char	**routes;
+	char	**all_paths;
 	
-	path = getPath(envp);
+	path = get_path(envp);
 	i = 0;
 	while (path && path[i++] != '=');
-	routes = ft_split(&path[++i], ':');
-	return (&(*routes));
+	all_paths = ft_split(&path[++i], ':');
+	return (&(*all_paths));
 }

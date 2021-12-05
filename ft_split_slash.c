@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_custom_split.c                                  :+:      :+:    :+:   */
+/*   ft_split_slash.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:16:06 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/22 18:21:08 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/11/23 17:11:34 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	ft_save_word(char *word, char const *s, char c, int i)
 	return (i);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_slash(char const *s, char c)
 {
 	char	**tab;
 	int		i;

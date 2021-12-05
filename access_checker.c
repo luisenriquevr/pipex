@@ -6,11 +6,11 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:48:45 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/22 18:23:51 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/11/23 16:38:02 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+/*#include "pipex.h"
 
 void add_cmd(char **routes, char cmd)
 {
@@ -46,4 +46,4 @@ int	access_checker(char **routes, char *path)
 		}
 	}
 	return (-1);
-}
+}*/
