@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_routes.c                                       :+:      :+:    :+:   */
+/*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 12:26:31 by lvarela           #+#    #+#             */
-/*   Updated: 2021/11/24 19:52:51 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/12/06 18:44:48 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	slashjoin(char **paths)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (paths[i])
+	{
+		tmp = ft_strjoin(paths[i], "/");
+		free(paths[i]);
+		paths[i] = tmp;
+		i++;
+	}
+}
 
 char	*get_path(char **envp)
 {
@@ -26,7 +41,8 @@ char	*get_path(char **envp)
 		else
 			i++;
 	}
-	perror("There are no PATH\n");
+	throw_error("No $PATH");
+	return (NULL);
 }
 
 char	**paths_pull(char **envp)
@@ -39,5 +55,6 @@ char	**paths_pull(char **envp)
 	i = 0;
 	while (path && path[i++] != '=');
 	all_paths = ft_split(&path[++i], ':');
-	return (&(*all_paths));
+	slashjoin(all_paths);
+	return (all_paths);
 }

@@ -15,7 +15,17 @@
 #define FILENAME_OUT	"output.txt"	/*nombre del archivo en el que escribir*/
 #define FILENAME_IN		"input.txt"
 
+typedef struct t_data
+{
+	char	**paths;
+	int		fd_in;
+	int		fd_out;
+	char	**cmd1;
+	char	**cmd2;
+}			t_data;
 
-int	main(int argc, char **argv, char **envp);
 char	**paths_pull(char **envp);
-void	manage_errors(int argc, char **argv, char **envp);
+void	manage_error(int argc, char **argv, char **envp, t_data *data);
+void	throw_error(char *error);
+int		frees(t_data *data);
+void		cmdfree(char **str);

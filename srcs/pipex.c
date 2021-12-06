@@ -6,77 +6,70 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:01 by lvarela           #+#    #+#             */
-/*   Updated: 2021/12/05 17:16:14 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/12/06 19:28:38 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	father_process(int *pipe1,  pid_t pid)
+void	father_process(int *fd,  pid_t pid, t_data *data, char **envp)
 {
-	int	fd_out;
-	
-	close(pipe1[WRITE_END]); // cerramos extremo de escritura
+	data->fd_out = open(FILENAME_OUT, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	close(fd[WRITE_END]);
 	pid = fork();
-	if(pid == 0)
+	if(!pid)
 	{
-		fd_out = open(FILENAME_OUT, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		// Aqui hemos creado el archivo de salida
-		if (fd_out < 0)
-			throw_error("No se puede crear el archivo de salida\n");
-		dup2(pipe1[READ_END], STDIN_FILENO);
-		close(pipe1[READ_END]);
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
-		execlp("/usr/bin/wc", "wc", "-l", NULL); // execve
-		//execve("/usr/bin/wc", **command, envp);
+		close(fd[WRITE_END]);
+		//data->fd_out = open(FILENAME_OUT, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (dup2(fd[READ_END], STDIN_FILENO) < 0)
+			throw_error("Error:");
+		close(fd[READ_END]);
+		if (dup2(data->fd_out, STDOUT_FILENO) < 0)
+			throw_error("Error:");
+		//close(data->fd_out);
+		if (execve(data->cmd2[0], data->cmd2, envp) < 0)
+			throw_error("Execution error");
+	}
+	else if (pid > 0)
+	{
+		close(fd[READ_END]);
+		close(fd[WRITE_END]);
 	}
 	else
-		close(pipe1[READ_END]); // cerramos extremo de lectura
+		throw_error("Second child's error");
 }
 
-void	child_process(int *pipe1/*, char *cmd1*/)
+void	child_process(int *fd, t_data *data, char **envp)
 {
-	int fd_read;
-	
-	close(pipe1[READ_END]); // cerramos el extremo de lectura
-	fd_read = open(FILENAME_IN, O_RDONLY);
-	if (fd_read < 0)
-		throw_error("No se puede acceder al archivo de entrada\n");
-	dup2(fd_read, STDIN_FILENO);
-	close(fd_read);
-	dup2(pipe1[WRITE_END], STDOUT_FILENO); // escribe en el extremo de escritura lo que sale por stdout
-	close(pipe1[WRITE_END]);
-	execlp("/bin/ls", "ls", NULL); // execve
+	data->fd_in = open(FILENAME_IN, O_RDONLY);
+	close(fd[READ_END]);
+	if (dup2(data->fd_in, STDIN_FILENO) < 0)
+		throw_error("Error:");
+	close(data->fd_in);
+	if (dup2(fd[WRITE_END], STDOUT_FILENO) < 0)
+		throw_error("Error:");
+	close(fd[WRITE_END]);
+	if (execve(data->cmd1[0], data->cmd1, envp) < 0)
+		throw_error("Execution error");
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int pipe1[2];
+	t_data	data;
+	int fd[2];
 	pid_t pid;
-	char **paths;
 
-	// comprobar si nos envian el comando con la ruta antes de cocatenar
-	// manage_errors(argc, &(*argv), &(*envp));
-	// añadimos barra tras bin y cocatenamos con el comando
-	// funcion acces para comprobar si existe el programa (cmd) en la ruta
-	// separar el comando de la opcion cmd-->"wc" opt-->"-l"
-	// comprobar que se han guardado bien los dos comandos
-	// 
-	manage_errors(argc, argv, envp);
-	paths = paths_pull(envp); // cogidas las rutas sin / -> hace falta ponerlo luego
-
-	//acces_checker();
-	if (pipe(pipe1) == -1)
-		throw_error("An error ocurred with opening the pipe\n");
+	manage_error(argc, argv,envp, &data);
+	if (pipe(fd) < 0)
+		throw_error("Pipe's error");
 	pid = fork();
-	if (pid == -1) // comprobamos que no hay error
-		throw_error("Fork error \n");
-	if (pid == 0)
-		child_process(pipe1 /*ademas el comando a realizar*/);
+	if (!pid)
+		child_process(fd, &data, envp);
+	else if (pid > 0)
+		father_process(fd, pid, &data, envp);
 	else
-		father_process(pipe1, pid);
+		throw_error("First child's error");
 	wait(NULL);
 	wait(NULL);
-	return (0);
+	return (frees(&data));
 }

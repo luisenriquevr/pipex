@@ -1,12 +1,25 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/06 19:42:23 by lvarela           #+#    #+#              #
+#    Updated: 2021/12/06 19:42:54 by lvarela          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC		=	gcc
 
 NAME	=	pipex
 
-FLAGS	=	-Wall -Wextra -g
+FLAGS	=	-Wall -Werror -Wextra
 
 SRCS	=	srcs/pipex.c \
 			srcs/get_path.c \
-			srcs/manage_errors.c \
+			srcs/manage_error.c \
+			srcs/frees.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -23,7 +36,6 @@ clean	:
 		${RM} ${OBJS}
 
 fclean	: clean
-		rm output.txt
 		$(MAKE) fclean -C ./libs/libft
 		${RM} ${NAME}
 

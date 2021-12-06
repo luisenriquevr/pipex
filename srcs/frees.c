@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_errors.c                                    :+:      :+:    :+:   */
+/*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 17:48:58 by lvarela           #+#    #+#             */
-/*   Updated: 2021/12/05 17:15:47 by lvarela          ###   ########.fr       */
+/*   Created: 2021/12/05 18:33:10 by lvarela           #+#    #+#             */
+/*   Updated: 2021/12/06 19:31:35 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	throw_error(char *error)
+void	cmdfree(char **str)
 {
-	perror(error);
-	exit(EXIT_FAILURE);
+	int	i;
+	
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }
 
-//   ./pipex archivo1 comando1 comando2 archivo2
-//	 < archivo1 comando1 | comando2 > archivo2
-
-void	manage_errors(int argc, char **argv, char **envp)
+int	frees(t_data *data)
 {
-	if (argc != 5)
-		throw_error("Incorrect number of arguments\n");
+	cmdfree(data->cmd1);
+	cmdfree(data->cmd2);
+	return (0);
 }
