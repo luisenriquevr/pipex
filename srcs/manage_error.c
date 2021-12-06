@@ -6,14 +6,11 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:48:58 by lvarela           #+#    #+#             */
-/*   Updated: 2021/12/06 19:33:46 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/12/06 19:54:09 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-//   ./pipex archivo1 comando1 comando2 archivo2
-//	 < archivo1 comando1 | comando2 > archivo2
 
 void	throw_error(char *error)
 {
@@ -65,7 +62,7 @@ void	checker(char *cmd1, char *cmd2, t_data *data)
 	data->cmd2 = ft_split(cmd2, ' ');
 	bool = cmds_checker(data);
 	if (!bool[0] || !bool[1])
-		throw_error("Comand's error");
+		throw_error(CMD_ERROR);
 	cmdfree(data->paths);
 	free(bool);
 }
@@ -73,9 +70,9 @@ void	checker(char *cmd1, char *cmd2, t_data *data)
 void	manage_error(int argc, char **argv, char **envp, t_data *data)
 {
 	if (argc != 5)
-		throw_error("Incorrect number of arguments\n");
+		throw_error(ARGS_ERROR);
 	data->paths = paths_pull(envp);
 	if (!data->paths)
-		throw_error("$PATH was no detected\n");
+		throw_error(PATH_ERROR);
 	checker(argv[2], argv[3], data);
 }

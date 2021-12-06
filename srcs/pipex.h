@@ -12,8 +12,17 @@
 #define READ_END	0			/* index pipe extremo lectura */
 #define WRITE_END	1			/* index pipe ectremo escritura */
 
-#define FILENAME_OUT	"output.txt"	/*nombre del archivo en el que escribir*/
 #define FILENAME_IN		"input.txt"
+#define FILENAME_OUT	"output.txt"
+#define ERROR			"Error:"
+#define CMD_ERROR		"Comand's error"
+#define ARGS_ERROR		"Incorrect number of arguments"
+#define PATH_ERROR		"$PATH was no detected"
+#define EXT_ERROR		"Execution error"
+#define	CHILD_ERROR		"Child's error"
+#define	FATHER_ERROR	"Father's error"
+#define	PIPE_ERROR		"Pipe's error"
+#define	PATH_ERROR		"$PATH's error"
 
 typedef struct t_data
 {

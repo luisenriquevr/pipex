@@ -6,7 +6,7 @@
 /*   By: lvarela <lvarela@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 12:26:31 by lvarela           #+#    #+#             */
-/*   Updated: 2021/12/06 18:44:48 by lvarela          ###   ########.fr       */
+/*   Updated: 2021/12/06 20:02:33 by lvarela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_path(char **envp)
 		else
 			i++;
 	}
-	throw_error("No $PATH");
+	throw_error(PATH_ERROR);
 	return (NULL);
 }
 
